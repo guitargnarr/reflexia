@@ -1,0 +1,23 @@
+{
+  "model": "reflexia-r1",
+  "timestamp": "2025-03-23 20:43:26",
+  "total_prompts": 3,
+  "successful": 3,
+  "results": [
+    {
+      "prompt": "Explain quantum computing.",
+      "response": "",
+      "time": 3.458521842956543
+    },
+    {
+      "prompt": "Write a poem about nature.",
+      "response": "",
+      "time": 6.65543007850647
+    },
+    {
+      "prompt": "Suggest 5 book recommendations for someone interested in AI.",
+      "response": "",
+      "time": 1.4225828647613525
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reflexia LLM Interface</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Reflexia LLM</h1>
+            <div class="status-bar">
+                <div>Status: <span id="status">Connecting...</span></div>
+                <div>Memory: <span id="memory-usage">--</span></div>
+                <div><a href="/api/docs" target="_blank" class="api-docs-link">API Documentation</a></div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="conversation" id="messages">
+                <div class="message system-message">
+                    Welcome to Reflexia LLM. Ask a question to get started.
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <textarea id="user-input" placeholder="Type your message here..."></textarea>
+                <div class="controls">
+                    <div class="options">
+                        <label>
+                            <input type="checkbox" id="use-rag"> Use RAG
+                        </label>
+                        <select id="template-select">
+                            <option value="default">Default</option>
+                        </select>
+                    </div>
+                    <div class="actions">
+                        <button id="clear-button">Clear</button>
+                        <button id="send-button">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3>System Prompt</h3>
+                <textarea id="system-prompt" placeholder="Custom system prompt...">You are a helpful assistant.</textarea>
+                <button id="update-system-prompt">Update</button>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>Generation Settings</h3>
+                <div class="setting">
+                    <label for="temperature">Temperature:</label>
+                    <input type="range" id="temperature" min="0.1" max="1.0" step="0.1" value="0.7">
+                    <span id="temperature-value">0.7</span>
+                </div>
+                <div class="setting">
+                    <label for="top-p">Top-P:</label>
+                    <input type="range" id="top-p" min="0.1" max="1.0" step="0.1" value="0.9">
+                    <span id="top-p-value">0.9</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>Documents</h3>
+                <div id="documents-list">
+                    No documents loaded
+                </div>
+                <div class="file-upload">
+                    <input type="file" id="file-upload" multiple>
+                    <button id="upload-button">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/socket.io.js"></script>
+    <script src="/static/app.js"></script>
+</body>
+</html>

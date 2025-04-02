@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reflexia-ollama
+  namespace: reflexia
+  labels:
+    app: reflexia
+    component: ollama
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reflexia
+      component: ollama
+  template:
+    metadata:
+      labels:
+        app: reflexia
+        component: ollama
+    spec:
+      containers:
+      - name: ollama
+        image: ollama/ollama:latest
+        ports:
+        - containerPort: 11434
+          name: http
+        volumeMounts:
+        - name: ollama-data
+          mountPath: /root/.ollama
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "500m"
+          limits:
+            memory: "8Gi"
+            cpu: "2000m"
+        # For NVIDIA GPU support, uncomment the following:
+        # resources:
+        #   limits:
+        #     nvidia.com/gpu: 1
+        livenessProbe:
+          httpGet:
+            path: /api/version
+            port: 11434
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /api/version
+            port: 11434
+          initialDelaySeconds: 30
+          periodSeconds: 15
+      volumes:
+      - name: ollama-data
+        persistentVolumeClaim:
+          claimName: ollama-data-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reflexia-ollama
+  namespace: reflexia
+  labels:
+    app: reflexia
+    component: ollama
+spec:
+  selector:
+    app: reflexia
+    component: ollama
+  ports:
+  - port: 11434
+    targetPort: 11434
+    name: http
+  type: ClusterIP

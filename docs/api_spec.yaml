@@ -1,0 +1,258 @@
+openapi: 3.0.3
+info:
+  title: Reflexia Model Manager API
+  description: |
+    API for the Reflexia Model Manager - A system for deploying, managing, 
+    and optimizing large language models with adaptive resource management.
+  version: 1.0.0
+  contact:
+    email: matthewdscott7@gmail.com
+  license:
+    name: MIT
+    url: https://github.com/guitargnar/reflexia-model-manager/blob/main/LICENSE
+
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+  - url: http://localhost:8001
+    description: Web UI server
+
+tags:
+  - name: health
+    description: Health check endpoints
+  - name: documents
+    description: RAG document management
+  - name: inference
+    description: Model inference
+  - name: metrics
+    description: Monitoring metrics
+
+paths:
+  /healthz:
+    get:
+      summary: Health check
+      description: Check the health of the application
+      tags:
+        - health
+      responses:
+        '200':
+          description: System is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+        '500':
+          description: System is unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/documents:
+    get:
+      summary: List documents
+      description: List all documents in the RAG knowledge base
+      tags:
+        - documents
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: List of documents
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  documents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Document'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/documents/{doc_id}:
+    delete:
+      summary: Delete document
+      description: Delete a document from the RAG knowledge base
+      tags:
+        - documents
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: doc_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Document ID to delete
+      responses:
+        '200':
+          description: Document deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+        '404':
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/upload:
+    post:
+      summary: Upload document
+      description: Upload a document to the RAG knowledge base
+      tags:
+        - documents
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Document file to upload
+      responses:
+        '200':
+          description: Document uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  filename:
+                    type: string
+                    example: document.pdf
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /metrics:
+    get:
+      summary: Prometheus metrics
+      description: Prometheus metrics endpoint
+      tags:
+        - metrics
+      responses:
+        '200':
+          description: Prometheus metrics in text format
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |
+                  # HELP reflexia_memory_usage_bytes Current memory usage in bytes
+                  # TYPE reflexia_memory_usage_bytes gauge
+                  reflexia_memory_usage_bytes 1073741824
+                  # HELP reflexia_memory_usage_percent Current memory usage as percentage
+                  # TYPE reflexia_memory_usage_percent gauge
+                  reflexia_memory_usage_percent 25.3
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        timestamp:
+          type: number
+          format: float
+          example: 1617123456.789
+        version:
+          type: string
+          example: 1.0.0
+        services:
+          type: object
+          properties:
+            model:
+              type: boolean
+              example: true
+            memory:
+              type: boolean
+              example: true
+            rag:
+              type: boolean
+              example: true
+
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          example: doc123
+        filename:
+          type: string
+          example: article.pdf
+        metadata:
+          type: object
+          additionalProperties: true
+          example:
+            mime_type: application/pdf
+            page_count: 5
+            created_at: 2025-04-02T12:30:45Z
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Invalid request
+        status:
+          type: integer
+          example: 400
+        success:
+          type: boolean
+          example: false
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key

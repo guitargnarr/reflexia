@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  reflexia:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: reflexia/model-manager:latest
+    container_name: reflexia-model-manager
+    ports:
+      - "8000:8000"  # Web UI
+      - "9090:9090"  # Prometheus metrics
+    volumes:
+      - reflexia_models:/app/models
+      - reflexia_cache:/app/cache
+      - reflexia_vector_db:/app/vector_db
+      - reflexia_logs:/app/logs
+      - reflexia_uploads:/app/uploads
+      - reflexia_output:/app/output
+    environment:
+      - OLLAMA_HOST=ollama:11434
+      - PYTHONPATH=/app
+      - WEB_UI_HOST=0.0.0.0
+      - WEB_UI_PORT=8000
+      - ENABLE_METRICS=true
+      - METRICS_PORT=9090
+      - ENABLE_RECOVERY=true
+      - LOG_LEVEL=INFO
+    depends_on:
+      - ollama
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    command: web
+    networks:
+      - reflexia-network
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: reflexia-ollama
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+    # Uncomment for NVIDIA GPU support
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - reflexia-network
+
+  # Uncomment to enable Prometheus monitoring
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   container_name: reflexia-prometheus
+  #   volumes:
+  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - prometheus_data:/prometheus
+  #   ports:
+  #     - "9091:9090"
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #     - '--storage.tsdb.path=/prometheus'
+  #     - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+  #     - '--web.console.templates=/usr/share/prometheus/consoles'
+  #   restart: unless-stopped
+  #   networks:
+  #     - reflexia-network
+
+  # Uncomment to enable Grafana dashboards
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   container_name: reflexia-grafana
+  #   volumes:
+  #     - grafana_data:/var/lib/grafana
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - GF_SECURITY_ADMIN_PASSWORD=admin
+  #     - GF_USERS_ALLOW_SIGN_UP=false
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - prometheus
+  #   networks:
+  #     - reflexia-network
+
+volumes:
+  reflexia_models:
+  reflexia_cache:
+  reflexia_vector_db:
+  reflexia_logs:
+  reflexia_uploads:
+  reflexia_output:
+  ollama_data:
+  # prometheus_data:
+  # grafana_data:
+
+networks:
+  reflexia-network:
+    driver: bridge

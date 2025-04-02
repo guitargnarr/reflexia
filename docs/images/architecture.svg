@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background and Title -->
+  <rect x="0" y="0" width="800" height="600" fill="#f8f9fa"/>
+  <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#333333">Reflexia Model Manager - Architecture</text>
+  
+  <!-- User Interfaces -->
+  <rect x="30" y="80" width="160" height="80" rx="8" fill="#e6f7ff" stroke="#1890ff" stroke-width="2"/>
+  <text x="110" y="120" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">CLI Interface</text>
+  <text x="110" y="140" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333333">main.py, run.sh</text>
+  
+  <rect x="30" y="180" width="160" height="80" rx="8" fill="#e6f7ff" stroke="#1890ff" stroke-width="2"/>
+  <text x="110" y="220" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">Web UI</text>
+  <text x="110" y="240" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333333">web_ui.py, templates</text>
+  
+  <!-- Core Components -->
+  <rect x="320" y="80" width="160" height="80" rx="8" fill="#f6ffed" stroke="#52c41a" stroke-width="2"/>
+  <text x="400" y="120" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">Configuration</text>
+  <text x="400" y="140" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333333">config.py, .env</text>
+  
+  <rect x="320" y="180" width="160" height="80" rx="8" fill="#f6ffed" stroke="#52c41a" stroke-width="2"/>
+  <text x="400" y="220" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">Model Manager</text>
+  <text x="400" y="240" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333333">model_manager.py</text>
+  
+  <rect x="320" y="280" width="160" height="80" rx="8" fill="#f6ffed" stroke="#52c41a" stroke-width="2"/>
+  <text x="400" y="320" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">Memory Manager</text>
+  <text x="400" y="340" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333333">memory_manager.py</text>
+  
+  <rect x="320" y="380" width="160" height="80" rx="8" fill="#f6ffed" stroke="#52c41a" stroke-width="2"/>
+  <text x="400" y="420" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">Prompt Manager</text>
+  <text x="400" y="440" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333333">prompt_manager.py</text>
+  
+  <rect x="320" y="480" width="160" height="80" rx="8" fill="#f6ffed" stroke="#52c41a" stroke-width="2"/>
+  <text x="400" y="520" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">RAG Manager</text>
+  <text x="400" y="540" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333333">rag_manager.py</text>
+  
+  <!-- Features -->
+  <rect x="610" y="80" width="160" height="80" rx="8" fill="#fff2e8" stroke="#fa8c16" stroke-width="2"/>
+  <text x="690" y="120" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">Adaptive Quantization</text>
+  <text x="690" y="140" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333333">Memory + Content</text>
+  
+  <rect x="610" y="180" width="160" height="80" rx="8" fill="#fff2e8" stroke="#fa8c16" stroke-width="2"/>
+  <text x="690" y="220" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">Resource Monitoring</text>
+  <text x="690" y="240" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333333">Memory, CPU, GPU</text>
+  
+  <rect x="610" y="280" width="160" height="80" rx="8" fill="#fff2e8" stroke="#fa8c16" stroke-width="2"/>
+  <text x="690" y="320" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">Caching</text>
+  <text x="690" y="340" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333333">LRU Responses</text>
+  
+  <rect x="610" y="380" width="160" height="80" rx="8" fill="#fff2e8" stroke="#fa8c16" stroke-width="2"/>
+  <text x="690" y="420" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">Expert Roles</text>
+  <text x="690" y="440" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333333">Specialized Personas</text>
+  
+  <rect x="610" y="480" width="160" height="80" rx="8" fill="#fff2e8" stroke="#fa8c16" stroke-width="2"/>
+  <text x="690" y="520" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">Error Handling</text>
+  <text x="690" y="540" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333333">Retries, Recovery</text>
+  
+  <!-- Connection Lines -->
+  <!-- User Interfaces to Core -->
+  <line x1="190" y1="120" x2="320" y2="120" stroke="#999999" stroke-width="2"/>
+  <line x1="190" y1="220" x2="320" y2="220" stroke="#999999" stroke-width="2"/>
+  
+  <!-- Connect CLI to all core components -->
+  <line x1="220" y1="120" x2="220" y2="520" stroke="#999999" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="220" y1="220" x2="320" y2="220" stroke="#999999" stroke-width="1"/>
+  <line x1="220" y1="320" x2="320" y2="320" stroke="#999999" stroke-width="1"/>
+  <line x1="220" y1="420" x2="320" y2="420" stroke="#999999" stroke-width="1"/>
+  <line x1="220" y1="520" x2="320" y2="520" stroke="#999999" stroke-width="1"/>
+  
+  <!-- Connect Web UI to all core components -->
+  <line x1="250" y1="220" x2="250" y2="520" stroke="#999999" stroke-width="1" stroke-dasharray="4"/>
+  <line x1="250" y1="120" x2="320" y2="120" stroke="#999999" stroke-width="1"/>
+  <line x1="250" y1="320" x2="320" y2="320" stroke="#999999" stroke-width="1"/>
+  <line x1="250" y1="420" x2="320" y2="420" stroke="#999999" stroke-width="1"/>
+  <line x1="250" y1="520" x2="320" y2="520" stroke="#999999" stroke-width="1"/>
+  
+  <!-- Connect core components to features -->
+  <line x1="480" y1="120" x2="610" y2="120" stroke="#999999" stroke-width="1"/>
+  <line x1="480" y1="220" x2="610" y2="120" stroke="#999999" stroke-width="1"/>
+  <line x1="480" y1="320" x2="610" y2="180" stroke="#999999" stroke-width="1"/>
+  <line x1="480" y1="220" x2="610" y2="280" stroke="#999999" stroke-width="1"/>
+  <line x1="480" y1="420" x2="610" y2="380" stroke="#999999" stroke-width="1"/>
+  <line x1="480" y1="520" x2="610" y2="480" stroke="#999999" stroke-width="1"/>
+  
+  <!-- External Components -->
+  <rect x="320" y="10" width="160" height="50" rx="8" fill="#f9f0ff" stroke="#722ed1" stroke-width="2"/>
+  <text x="400" y="40" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">Ollama</text>
+  <line x1="400" y1="60" x2="400" y2="80" stroke="#722ed1" stroke-width="2"/>
+  
+  <rect x="30" y="280" width="160" height="50" rx="8" fill="#f9f0ff" stroke="#722ed1" stroke-width="2"/>
+  <text x="110" y="310" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#333333">Docker</text>
+  <line x1="190" y1="305" x2="320" y2="320" stroke="#722ed1" stroke-width="2" stroke-dasharray="4"/>
+  
+  <!-- Legend -->
+  <rect x="30" y="540" width="20" height="20" fill="#e6f7ff" stroke="#1890ff" stroke-width="2"/>
+  <text x="55" y="555" font-family="Arial, sans-serif" font-size="12" fill="#333333">Interface</text>
+  
+  <rect x="120" y="540" width="20" height="20" fill="#f6ffed" stroke="#52c41a" stroke-width="2"/>
+  <text x="145" y="555" font-family="Arial, sans-serif" font-size="12" fill="#333333">Core Component</text>
+  
+  <rect x="235" y="540" width="20" height="20" fill="#fff2e8" stroke="#fa8c16" stroke-width="2"/>
+  <text x="260" y="555" font-family="Arial, sans-serif" font-size="12" fill="#333333">Feature</text>
+  
+  <rect x="320" y="540" width="20" height="20" fill="#f9f0ff" stroke="#722ed1" stroke-width="2"/>
+  <text x="345" y="555" font-family="Arial, sans-serif" font-size="12" fill="#333333">External</text>
+</svg>

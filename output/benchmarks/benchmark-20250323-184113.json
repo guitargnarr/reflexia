@@ -1,0 +1,53 @@
+{
+  "model": "reflexia-r1",
+  "quantization": "q4_0",
+  "timestamp": "20250323-184113",
+  "system_info": {
+    "platform": "macOS-15.4-arm64-arm-64bit-Mach-O",
+    "processor": "arm",
+    "python_version": "3.13.1",
+    "memory_gb": 36.0
+  },
+  "results": [
+    {
+      "prompt": "Explain quantum computing in simple terms",
+      "avg_time": 5.764139811197917,
+      "runs": [
+        4.0937888622283936,
+        1.567324161529541,
+        11.631306409835815
+      ],
+      "success_rate": 1.0
+    },
+    {
+      "prompt": "Write a Python function to find prime numbers up to n",
+      "avg_time": 1.9593980312347412,
+      "runs": [
+        1.2664451599121094,
+        1.2257850170135498,
+        3.3859639167785645
+      ],
+      "success_rate": 1.0
+    },
+    {
+      "prompt": "Summarize the main ideas of capitalism",
+      "avg_time": 3.4422736962636313,
+      "runs": [
+        2.968233108520508,
+        5.483412027359009,
+        1.875175952911377
+      ],
+      "success_rate": 1.0
+    },
+    {
+      "prompt": "Create a short story about a robot discovering emotions",
+      "avg_time": 2.890183607737223,
+      "runs": [
+        3.5727686882019043,
+        3.0965592861175537,
+        2.001222848892212
+      ],
+      "success_rate": 1.0
+    }
+  ]
+}

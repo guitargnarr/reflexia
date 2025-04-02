@@ -1,0 +1,255 @@
+/* Expert Role Selector Styles */
+
+.roles-container {
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+#current-role-display {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #ecf0f1;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#current-role-display:hover {
+    background-color: #e3e8e9;
+}
+
+#current-role-display.active {
+    background-color: #d6eaf8;
+    border-left: 3px solid #3498db;
+}
+
+.role-icon {
+    font-size: 1.2rem;
+    margin-right: 8px;
+}
+
+.role-name {
+    font-weight: 500;
+    flex-grow: 1;
+}
+
+.role-domain {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    background-color: #eee;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+.role-search-bar {
+    display: flex;
+    margin-bottom: 10px;
+    gap: 8px;
+}
+
+#role-search {
+    flex-grow: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#role-domain-filter {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+}
+
+#expert-roles-panel {
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+#expert-roles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.role-section {
+    grid-column: 1 / -1;
+    margin-bottom: 5px;
+}
+
+.role-section h4 {
+    margin: 5px 0;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+hr {
+    grid-column: 1 / -1;
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 10px 0;
+}
+
+.role-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.role-button:hover {
+    background-color: #eef2f7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.role-button.active {
+    background-color: #d6eaf8;
+    border-color: #3498db;
+}
+
+.role-button .role-icon {
+    font-size: 1.5rem;
+}
+
+.roles-container {
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+#current-role-display {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #ecf0f1;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#current-role-display:hover {
+    background-color: #e3e8e9;
+}
+
+#current-role-display.active {
+    background-color: #d6eaf8;
+    border-left: 3px solid #3498db;
+}
+
+.role-icon {
+    font-size: 1.2rem;
+    margin-right: 8px;
+}
+
+.role-name {
+    font-weight: 500;
+    flex-grow: 1;
+}
+
+.role-domain {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    background-color: #eee;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+.role-search-bar {
+    display: flex;
+    margin-bottom: 10px;
+    gap: 8px;
+}
+
+#role-search {
+    flex-grow: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#role-domain-filter {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+}
+
+#expert-roles-panel {
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+#expert-roles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.role-section {
+    grid-column: 1 / -1;
+    margin-bottom: 5px;
+}
+
+.role-section h4 {
+    margin: 5px 0;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+hr {
+    grid-column: 1 / -1;
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 10px 0;
+}
+
+.role-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.role-button:hover {
+    background-color: #eef2f7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.role-button.active {
+    background-color: #d6eaf8;
+    border-color: #3498db;
+}
+
+.role-button .role-icon {
+    font-size: 1.5rem;
+}

@@ -1,0 +1,421 @@
+#!/usr/bin/env python3
+"""
+RAG (Retrieval Augmented Generation) Manager for DeepSeek LLM implementation
+Handles document loading, chunking, embedding, and retrieval
+"""
+
+import os
+import logging
+import json
+import numpy as np
+import time
+from pathlib import Path
+from typing import List, Dict, Any, Optional, Union, Tuple
+
+# Fix for Apple Silicon MPS issues
+import os
+os.environ['TOKENIZERS_PARALLELISM'] = 'false'
+os.environ['CUDA_VISIBLE_DEVICES'] = ''
+os.environ['USE_MPS'] = '0'  # Disable MPS specifically
+
+# Import vector database libraries
+try:
+    import chromadb
+    from chromadb.utils import embedding_functions
+except ImportError:
+    logging.error("ChromaDB not installed. Install with: pip install chromadb sentence-transformers")
+    raise
+
+logger = logging.getLogger("deepseek-tools.rag")
+
+class RAGManager:
+    """Manager for RAG (Retrieval Augmented Generation) functionality"""
+    
+    def __init__(self, config, model_manager=None):
+        """Initialize the RAG manager
+        
+        Args:
+            config: Configuration object
+            model_manager: ModelManager instance (optional)
+        """
+        self.config = config
+        self.model_manager = model_manager
+        
+        # Get RAG configuration with defaults
+        self.chunk_size = config.get("rag", "chunk_size", default=1000)
+        self.chunk_overlap = config.get("rag", "chunk_overlap", default=200)
+        self.similarity_top_k = config.get("rag", "similarity_top_k", default=3)
+        self.embedding_model = config.get("rag", "embedding_model", default="all-MiniLM-L6-v2")
+        
+        # Set up vector database directory
+        vector_db_dir = Path(config.get("paths", "vector_db_dir", default="vector_db"))
+        self.vector_db_dir = vector_db_dir
+        self.vector_db_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Initialize ChromaDB
+        self._initialize_vector_db()
+        
+        logger.info("RAG manager initialized")
+    
+    def _initialize_vector_db(self):
+        """Initialize the vector database"""
+        try:
+            # Create persistent client
+            self.chroma_client = chromadb.PersistentClient(path=str(self.vector_db_dir))
+            
+            # Set up embedding function
+            # Use sentence-transformers if available, else default to DeepSeek for embedding
+            try:
+                self.embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
+                    model_name=self.embedding_model
+                )
+                logger.info(f"Using {self.embedding_model} for embeddings")
+            except Exception as e:
+                logger.warning(f"Could not load {self.embedding_model}: {e}")
+                logger.warning("Falling back to DeepSeek model for embeddings")
+                self.embedding_function = None  # Will use model_manager to generate embeddings
+            
+            # Get or create default collection
+            self.default_collection = self.chroma_client.get_or_create_collection(
+                name="default",
+                embedding_function=self.embedding_function
+            )
+            
+            logger.info(f"Vector database initialized at {self.vector_db_dir}")
+            return True
+        except Exception as e:
+            logger.error(f"Error initializing vector database: {e}")
+            return False
+    
+    def create_embedding(self, text: str) -> List[float]:
+        """Create an embedding for the given text
+        
+        Args:
+            text: Text to embed
+            
+        Returns:
+            List of floats representing the embedding
+        """
+        if self.embedding_function is not None:
+            # Use sentence-transformers
+            return self.embedding_function([text])[0]
+        elif self.model_manager is not None:
+            # Use model_manager to generate embeddings
+            try:
+                return self.model_manager.create_embedding(text)
+            except NotImplementedError:
+                logger.error("Embedding creation not implemented in model_manager")
+                raise
+        else:
+            raise ValueError("No embedding function available")
+    
+    def add_documents(self, documents: List[Dict[str, str]], collection_name: str = "default") -> bool:
+        """Add documents to the vector database
+        
+        Args:
+            documents: List of document dictionaries with 'text' and optional 'metadata'
+            collection_name: Name of collection to use
+            
+        Returns:
+            bool: Success status
+        """
+        try:
+            collection = self.chroma_client.get_or_create_collection(
+                name=collection_name,
+                embedding_function=self.embedding_function
+            )
+            
+            # Process documents in batches
+            batch_size = 10
+            for i in range(0, len(documents), batch_size):
+                batch = documents[i:i+batch_size]
+                
+                # Extract text, metadata, and ids
+                texts = [doc["text"] for doc in batch]
+                metadatas = [doc.get("metadata", {}) for doc in batch]
+                ids = [doc.get("id", str(int(time.time() * 1000) + j + i)) for j, doc in enumerate(batch)]
+                
+                # Add to collection
+                collection.add(
+                    documents=texts,
+                    metadatas=metadatas,
+                    ids=ids
+                )
+                
+                logger.info(f"Added batch of {len(batch)} documents to '{collection_name}' collection")
+            
+            return True
+        except Exception as e:
+            logger.error(f"Error adding documents to vector database: {e}")
+            return False
+    
+    def chunk_text(self, text: str) -> List[str]:
+        """Chunk text into smaller pieces for embedding
+        
+        Args:
+            text: Text to chunk
+            
+        Returns:
+            List of text chunks
+        """
+        # Simple chunking by character count
+        chunks = []
+        start = 0
+        
+        while start < len(text):
+            end = min(start + self.chunk_size, len(text))
+            
+            # Try to find a good break point (newline or period)
+            if end < len(text):
+                # Look for paragraph break first
+                paragraph_break = text.rfind('\n\n', start, end)
+                if paragraph_break != -1 and paragraph_break > start + 200:  # Ensure minimum chunk size
+                    end = paragraph_break + 2
+                else:
+                    # Look for newline
+                    newline = text.rfind('\n', start, end)
+                    if newline != -1 and newline > start + 200:
+                        end = newline + 1
+                    else:
+                        # Look for sentence end
+                        period = text.rfind('. ', start, end)
+                        if period != -1 and period > start + 100:
+                            end = period + 2
+            
+            chunks.append(text[start:end])
+            start = end - self.chunk_overlap
+        
+        return chunks
+    
+    def load_file(self, file_path: Union[str, Path], metadata: Dict[str, Any] = None) -> bool:
+        """Load a file into the vector database"""
+        try:
+            file_path = Path(file_path)
+            
+            if not file_path.exists():
+                logger.error(f"File not found: {file_path}")
+                return False
+            
+            # Basic file type handling
+            suffix = file_path.suffix.lower()
+            
+            if suffix in ['.txt', '.md', '.py', '.js', '.html', '.css', '.json']:
+                # Simple text files
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    text = f.read()
+            elif suffix in ['.pdf']:
+                try:
+                    import fitz  # PyMuPDF
+                    doc = fitz.open(file_path)
+                    text = ""
+                    for page in doc:
+                        text += page.get_text()
+                    doc.close()
+                except ImportError:
+                    logger.error("PDF support requires PyMuPDF. Install with: pip install pymupdf")
+                    print("PDF support requires additional libraries. Install with: pip install pymupdf")
+                    return False
+            else:
+                logger.error(f"Unsupported file type: {suffix}")
+                return False
+            
+            # Create base metadata
+            base_metadata = {
+                "source": str(file_path),
+                "filename": file_path.name,
+                "filetype": suffix[1:],
+                "added_at": time.strftime("%Y-%m-%d %H:%M:%S")
+            }
+            
+            # Add custom metadata
+            if metadata:
+                base_metadata.update(metadata)
+            
+            # Chunk the text
+            chunks = self.chunk_text(text)
+            
+            # Prepare documents
+            documents = []
+            for i, chunk in enumerate(chunks):
+                chunk_metadata = base_metadata.copy()
+                chunk_metadata["chunk_id"] = i
+                chunk_metadata["chunk_total"] = len(chunks)
+                
+                documents.append({
+                    "id": f"{file_path.stem}-{i}",
+                    "text": chunk,
+                    "metadata": chunk_metadata
+                })
+            
+            # Add to vector database
+            success = self.add_documents(documents)
+            
+            if success:
+                logger.info(f"Loaded {file_path} into vector database ({len(chunks)} chunks)")
+                return True
+            else:
+                logger.error(f"Failed to add documents to vector database")
+                return False
+                
+        except Exception as e:
+            logger.error(f"Error loading file {file_path}: {e}")
+            return False
+    
+    def query(self, query_text: str, collection_name: str = "default", 
+             n_results: int = None, filter_criteria: Dict = None) -> List[Dict]:
+        """Query the vector database"""
+        try:
+            collection = self.chroma_client.get_collection(
+                name=collection_name,
+                embedding_function=self.embedding_function
+            )
+            
+            # Use default if not specified
+            if n_results is None:
+                n_results = self.similarity_top_k
+            
+            # Query the collection
+            results = collection.query(
+                query_texts=[query_text],
+                n_results=n_results,
+                where=filter_criteria
+            )
+            
+            # Format results
+            formatted_results = []
+            if results["documents"] and len(results["documents"]) > 0:
+                documents = results["documents"][0]
+                metadatas = results["metadatas"][0] if results["metadatas"] else [{}] * len(documents)
+                distances = results["distances"][0] if results["distances"] else [0] * len(documents)
+                
+                for doc, meta, dist in zip(documents, metadatas, distances):
+                    formatted_results.append({
+                        "text": doc,
+                        "metadata": meta,
+                        "similarity": 1.0 - dist/2.0  # Convert distance to similarity score
+                    })
+            
+            return formatted_results
+            
+        except Exception as e:
+            logger.error(f"Error querying vector database: {e}")
+            return []
+    
+    def generate_rag_response(self, query_text: str, system_prompt: str = None,
+                            collection_name: str = "default") -> Dict:
+        """Generate a response using RAG
+        
+        Args:
+            query_text: User query
+            system_prompt: System prompt to use
+            collection_name: Name of collection to query
+            
+        Returns:
+            Dict with response and context information
+        """
+        try:
+            # 1. Query the vector database
+            context_docs = self.query(query_text, collection_name)
+            
+            if not context_docs:
+                logger.warning("No relevant documents found for query")
+                # Fall back to regular generation
+                response = self.model_manager.generate_response(
+                    query_text,
+                    system_prompt=system_prompt
+                )
+                return {
+                    "response": response,
+                    "context_used": False,
+                    "sources": [],
+                    "context_docs": []
+                }
+            
+            # 2. Prepare context
+            context_text = "\n\n".join([f"Context {i+1}:\n{doc['text']}" for i, doc in enumerate(context_docs)])
+            
+            # 3. Create a RAG prompt
+            rag_system_prompt = system_prompt or "You are a helpful assistant that answers based on the provided context."
+            rag_system_prompt += "\nAnswer the question based on the context provided. If the context doesn't contain relevant information, say so."
+            
+            rag_prompt = f"Context Information:\n{context_text}\n\nQuestion: {query_text}\n\nAnswer:"
+            
+            # 4. Generate response
+            response = self.model_manager.generate_response(
+                rag_prompt,
+                system_prompt=rag_system_prompt
+            )
+            
+            # 5. Prepare result with sources
+            sources = []
+            for doc in context_docs:
+                if "metadata" in doc and "source" in doc["metadata"]:
+                    source = doc["metadata"]["source"]
+                    if source not in sources:
+                        sources.append(source)
+            
+            return {
+                "response": response,
+                "context_used": True,
+                "sources": sources,
+                "context_docs": context_docs
+            }
+            
+        except Exception as e:
+            logger.error(f"Error generating RAG response: {e}")
+            # Fall back to regular generation
+            try:
+                response = self.model_manager.generate_response(
+                    query_text,
+                    system_prompt=system_prompt
+                )
+                return {
+                    "response": response,
+                    "context_used": False,
+                    "sources": [],
+                    "context_docs": [],
+                    "error": str(e)
+                }
+            except Exception as e2:
+                logger.error(f"Error with fallback generation: {e2}")
+                return {
+                    "response": "Error generating response.",
+                    "context_used": False,
+                    "sources": [],
+                    "context_docs": [],
+                    "error": f"{e}; Fallback error: {e2}"
+                }
+    
+    def _process_dataset_directory(self, dir_path, output_file):
+        """Process a directory of dataset files"""
+        with open(output_file, 'w') as f_out:
+            # Process each JSON or JSONL file
+            for file_path in dir_path.glob('**/*.json*'):
+                try:
+                    with open(file_path, 'r') as f_in:
+                        # Determine file format
+                        if file_path.suffix == '.json':
+                            # JSON array
+                            data = json.load(f_in)
+                            
+                            for item in data:
+                                prompt = item.get('instruction', item.get('prompt', item.get('input', '')))
+                                response = item.get('output', item.get('response', item.get('completion', '')))
+                                
+                                if prompt and response:
+                                    example = {"prompt": prompt, "response": response}
+                                    f_out.write(json.dumps(example) + '\n')
+                        
+                        elif file_path.suffix == '.jsonl':
+                            # JSONL format
+                            for line in f_in:
+                                if line.strip():
+                                    item = json.loads(line)
+                                    prompt = item.get('instruction', item.get('prompt', item.get('input', '')))
+                                    response = item.get('output', item.get('response', item.get('completion', '')))
+                                    
+                                    if prompt and response:
+                                        example = {"prompt": prompt, "response": response}
+                                        f_out.write(json.dumps(example) + '\n')
+                except Exception as e:
+                    logger.warning(f"Error processing file {file_path}: {e}")

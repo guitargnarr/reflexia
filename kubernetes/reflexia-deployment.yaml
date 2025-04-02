@@ -1,0 +1,121 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reflexia-model-manager
+  namespace: reflexia
+  labels:
+    app: reflexia
+    component: model-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reflexia
+      component: model-manager
+  template:
+    metadata:
+      labels:
+        app: reflexia
+        component: model-manager
+    spec:
+      containers:
+      - name: model-manager
+        image: reflexia/model-manager:latest
+        imagePullPolicy: IfNotPresent
+        command: ["./run.sh"]
+        args: ["web"]
+        ports:
+        - containerPort: 8000
+          name: http
+        - containerPort: 9090
+          name: metrics
+        envFrom:
+        - configMapRef:
+            name: reflexia-config
+        - secretRef:
+            name: reflexia-secrets
+        volumeMounts:
+        - name: models
+          mountPath: /app/models
+        - name: vector-db
+          mountPath: /app/vector_db
+        - name: logs
+          mountPath: /app/logs
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "4Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 15
+      volumes:
+      - name: models
+        persistentVolumeClaim:
+          claimName: reflexia-models-pvc
+      - name: vector-db
+        persistentVolumeClaim:
+          claimName: reflexia-vector-db-pvc
+      - name: logs
+        persistentVolumeClaim:
+          claimName: reflexia-logs-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reflexia-model-manager
+  namespace: reflexia
+  labels:
+    app: reflexia
+    component: model-manager
+spec:
+  selector:
+    app: reflexia
+    component: model-manager
+  ports:
+  - port: 8000
+    targetPort: 8000
+    name: http
+  - port: 9090
+    targetPort: 9090
+    name: metrics
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: reflexia-ingress
+  namespace: reflexia
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    # Uncomment for SSL termination
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  # Uncomment for SSL termination
+  # tls:
+  # - hosts:
+  #   - reflexia.example.com
+  #   secretName: reflexia-tls
+  rules:
+  - host: reflexia.example.com  # Replace with your actual domain
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: reflexia-model-manager
+            port:
+              number: 8000

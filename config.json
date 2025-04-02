@@ -1,0 +1,79 @@
+{
+  "model": {
+    "name": "llama3:latest",
+    "quantization": "q4_0",
+    "context_length": 4096,
+    "metal_enabled": true,
+    "batch_size": 8,
+    "quantization_options": {
+      "q4_0": "4-bit (balanced speed/quality)",
+      "q4_k_m": "4-bit (higher quality)",
+      "q5_k_m": "5-bit (high quality)",
+      "q8_0": "8-bit (highest quality)",
+      "f16": "16-bit (full precision, high memory usage)"
+    }
+  },
+  "memory": {
+    "cache_size": 128,
+    "max_memory_percent": 80,
+    "lru_cache_size": 64,
+    "adaptive_quantization": true,
+    "high_memory_threshold": 85,
+    "critical_memory_threshold": 90,
+    "response_cache_size": 100
+  },
+  "prompt": {
+    "default_system_prompt": "You are a helpful AI assistant.",
+    "templates": {
+      "default": "{system}\n\nUser: {user_input}\nAssistant:",
+      "code": "You are an expert programmer. {system}\n\nUser: {user_input}\nWrite code to solve this problem:\nAssistant:",
+      "creative": "You are a creative assistant. {system}\n\nUser: {user_input}\nAssistant:"
+    }
+  },
+  "fine_tuning": {
+    "method": "lora",
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "epochs": 3,
+    "learning_rate": 0.0002,
+    "batch_size": 4,
+    "max_steps": 1000,
+    "save_steps": 200
+  },
+  "resources": {
+    "threads": 8,
+    "metal_optimized": true
+  },
+  "paths": {
+    "models_dir": "models",
+    "cache_dir": "cache",
+    "datasets_dir": "datasets",
+    "output_dir": "output",
+    "logs_dir": "logs",
+    "vector_db_dir": "vector_db",
+    "web_ui_dir": "web_ui",
+    "upload_dir": "uploads"
+  },
+  "benchmark": {
+    "prompts": [
+      "Explain quantum computing in simple terms",
+      "Write a Python function to find prime numbers up to n",
+      "Summarize the main ideas of capitalism",
+      "Create a short story about a robot discovering emotions"
+    ],
+    "num_runs": 3,
+    "timeout": 60
+  },
+  "rag": {
+    "chunk_size": 1000,
+    "chunk_overlap": 200,
+    "similarity_top_k": 3,
+    "embedding_model": "all-MiniLM-L6-v2"
+  },
+  "web_ui": {
+    "host": "127.0.0.1",
+    "port": 8001,
+    "debug": false
+  }
+}
