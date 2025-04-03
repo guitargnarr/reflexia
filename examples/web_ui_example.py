@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 """
+web_ui_example.py - Part of Reflexia Model Manager
+
+Copyright (c) 2025 Matthew D. Scott
+All rights reserved.
+
+This source code is licensed under the Reflexia Model Manager License
+found in the LICENSE file in the root directory of this source tree.
+
+Unauthorized use, reproduction, or distribution is prohibited.
+"""
 Web UI example using Reflexia Model Manager
 """
 

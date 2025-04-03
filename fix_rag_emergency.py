@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 """
+fix_rag_emergency.py - Part of Reflexia Model Manager
+
+Copyright (c) 2025 Matthew D. Scott
+All rights reserved.
+
+This source code is licensed under the Reflexia Model Manager License
+found in the LICENSE file in the root directory of this source tree.
+
+Unauthorized use, reproduction, or distribution is prohibited.
+"""
 Emergency fix for indentation error in rag_manager.py and rag_manager references in main.py
 """
 import os

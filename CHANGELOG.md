@@ -23,9 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI/CD pipeline with GitHub Actions
 
 ### Changed
-- Renamed from DeepSeek Model Manager to Reflexia Model Manager
+- Complete rebranding to Reflexia Model Manager (formerly operated under a different name)
 - Updated all documentation and code references
-- Changed default model from deepseek-r1 to llama3:latest
+- Changed default model from legacy model to llama3:latest
 
 ### Fixed
 - Path handling for imports in example files

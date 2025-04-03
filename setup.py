@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 """
+setup.py - Part of Reflexia Model Manager
+
+Copyright (c) 2025 Matthew D. Scott
+All rights reserved.
+
+This source code is licensed under the Reflexia Model Manager License
+found in the LICENSE file in the root directory of this source tree.
+
+Unauthorized use, reproduction, or distribution is prohibited.
+"""
 Setup script for Reflexia Model Manager
 """
 
@@ -27,7 +37,7 @@ setup(
     package_dir={"": "src"},
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
+        "License :: Other/Proprietary License",
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.8",

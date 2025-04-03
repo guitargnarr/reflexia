@@ -131,3 +131,13 @@ dmypy.json
 /vector_db/
 /vector_db_backup/
 /vector_db_backup_final/
+/uploads/
+/temp/
+/output/
+/models/
+/private/
+*.bak
+*.rag_ref_bak
+*.old
+*~
+.DS_Store
