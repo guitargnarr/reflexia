@@ -263,6 +263,9 @@ Reflexia Model Manager is proprietary software with significant protections:
 - **Copyright**: © 2025 Matthew D. Scott. All rights reserved
 - **Proprietary Technology**: The adaptive quantization system and resource management technology are proprietary
 - **Confidentiality**: Code, algorithms, and implementation details are confidential information
+- **Digital Watermarking**: Outputs contain digital watermarks to identify unauthorized use
+- **License Verification**: Built-in license verification prevents unauthorized commercial use
+- **Code Obfuscation**: Key algorithms are only available in the commercial version
 
 ### Trademark Notice
 "Reflexia" and the Reflexia logo are proprietary identifiers of this project and cannot be used without permission.
