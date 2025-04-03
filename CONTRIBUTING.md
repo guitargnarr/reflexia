@@ -2,6 +2,15 @@
 
 Thank you for your interest in contributing to Reflexia Model Manager! This document provides guidelines and instructions for contributing to this project.
 
+## Important Legal Information
+
+Before contributing, please be aware that:
+
+1. All contributions are subject to the Reflexia Model Manager License (see LICENSE file)
+2. By submitting a contribution, you are assigning all intellectual property rights in your contribution to Matthew D. Scott
+3. Your contributions will not be usable for commercial purposes without a license
+4. You must sign the Contributor License Agreement before your contribution can be accepted
+
 ## Code of Conduct
 
 By participating in this project, you agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md).

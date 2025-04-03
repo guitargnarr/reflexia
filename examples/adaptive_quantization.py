@@ -2,6 +2,11 @@
 """
 Adaptive Quantization example using Reflexia Model Manager
 This demonstrates the dynamic quantization feature based on content complexity and memory pressure.
+
+PROPRIETARY AND CONFIDENTIAL
+Copyright (c) 2025 Matthew D. Scott. All Rights Reserved.
+This file demonstrates proprietary adaptive quantization technology.
+Unauthorized use, distribution, or modification is strictly prohibited.
 """
 
 import os

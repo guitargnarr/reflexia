@@ -1,0 +1,26 @@
+REFLEXIA MODEL MANAGER
+Copyright (c) 2025 Matthew D. Scott
+All rights reserved.
+
+The Reflexia Model Manager software includes the following components 
+and intellectual property:
+
+1. Adaptive Quantization Engine - Proprietary technology
+2. Resource Management System - Proprietary technology
+3. "Reflexia" name and logo - Trademarks of Matthew D. Scott
+
+This notice file must be included with all copies of the software
+and may not be removed or altered.
+
+For commercial licensing inquiries, please contact:
+matthewdscott7@gmail.com
+
+THIRD-PARTY COMPONENTS:
+
+This software includes components from third-party open source projects:
+- Flask (BSD 3-Clause)
+- PyTorch (BSD-style)
+- ChromaDB (Apache 2.0)
+- Sentence-Transformers (Apache 2.0)
+
+The full text of these licenses can be found in the respective packages.

@@ -2,6 +2,11 @@
 """
 Model Manager for Reflexia LLM implementation
 Handles model loading, inference, and interaction with Ollama
+
+Copyright (c) 2025 Matthew D. Scott. All Rights Reserved.
+This file contains proprietary and confidential information.
+Unauthorized copying, use, distribution, or modification is strictly prohibited.
+Core adaptive quantization technology is patent-pending.
 """
 
 import os

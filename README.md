@@ -250,9 +250,26 @@ Input → Content Analysis → Memory Pressure Check → Quantization Selection 
 
 Contributions are welcome! Please check out our [contributing guidelines](CONTRIBUTING.md) to get started.
 
-## 📄 License
+## 📄 License and Intellectual Property Notice
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Reflexia Model Manager is proprietary software with significant protections:
+
+### Usage Rights
+- **Personal Use**: Permitted for individual, non-commercial learning and experimentation
+- **Commercial Use**: Requires a paid commercial license
+- **Distribution**: Not permitted without written authorization
+
+### Legal Protections
+- **Copyright**: © 2025 Matthew D. Scott. All rights reserved
+- **Proprietary Technology**: The adaptive quantization system and resource management technology are proprietary
+- **Confidentiality**: Code, algorithms, and implementation details are confidential information
+
+### Trademark Notice
+"Reflexia" and the Reflexia logo are proprietary identifiers of this project and cannot be used without permission.
+
+See the [LICENSE](LICENSE) and [NOTICE](NOTICE) files for complete terms.
+
+For licensing inquiries, partnerships, or permitted use questions: matthewdscott7@gmail.com
 
 ## 🙏 Acknowledgements
 
