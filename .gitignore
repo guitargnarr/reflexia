@@ -141,3 +141,6 @@ dmypy.json
 *.old
 *~
 .DS_Store
+
+# Project-specific venv
+reflexia-venv/

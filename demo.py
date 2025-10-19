@@ -2,6 +2,9 @@
 """
 demo.py - Part of Reflexia Model Manager
 
+Reflexia Model Manager - Feature Demo Script
+This script demonstrates the key features of Reflexia Model Manager
+
 Copyright (c) 2025 Matthew D. Scott
 All rights reserved.
 
@@ -9,9 +12,6 @@ This source code is licensed under the Reflexia Model Manager License
 found in the LICENSE file in the root directory of this source tree.
 
 Unauthorized use, reproduction, or distribution is prohibited.
-"""
-Reflexia Model Manager - Feature Demo Script
-This script demonstrates the key features of Reflexia Model Manager
 """
 import os
 import time
