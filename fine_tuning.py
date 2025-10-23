@@ -10,6 +10,7 @@ found in the LICENSE file in the root directory of this source tree.
 
 Unauthorized use, reproduction, or distribution is prohibited.
 """
+
 Fine-tuning Manager for Reflexia LLM implementation
 Handles LoRA fine-tuning and model customization
 """
@@ -163,6 +164,7 @@ class FineTuningManager:
         
         # Create Modelfile content
         modelfile_content = f"""
+
 FROM {base_model}
 SYSTEM "You are a helpful AI assistant that has been fine-tuned on specialized data."
 

@@ -10,6 +10,7 @@ found in the LICENSE file in the root directory of this source tree.
 
 Unauthorized use, reproduction, or distribution is prohibited.
 """
+
 Monitoring module for Reflexia Model Manager
 Handles Prometheus metrics and monitoring infrastructure
 """
