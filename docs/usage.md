@@ -20,7 +20,7 @@ Before using Reflexia Model Manager, you need to install it and its dependencies
 
 ```bash
 # Clone the repository
-git clone https://github.com/guitargnar/reflexia-model-manager.git
+git clone https://github.com/guitargnarr/reflexia-model-manager.git
 cd reflexia-model-manager
 
 # Create a virtual environment

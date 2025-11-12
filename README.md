@@ -73,7 +73,7 @@ Use our deployment script for the easiest setup:
 
 ```bash
 # Clone the repository
-git clone https://github.com/guitargnar/reflexia-model-manager.git
+git clone https://github.com/guitargnarr/reflexia-model-manager.git
 cd reflexia-model-manager
 
 # Make the deployment script executable
@@ -90,7 +90,7 @@ chmod +x deploy.sh
 
 ```bash
 # Clone the repository
-git clone https://github.com/guitargnar/reflexia-model-manager.git
+git clone https://github.com/guitargnarr/reflexia-model-manager.git
 cd reflexia-model-manager
 
 # Create and activate a virtual environment
@@ -108,7 +108,7 @@ ollama pull llama3:latest
 
 ```bash
 # Clone the repository
-git clone https://github.com/guitargnar/reflexia-model-manager.git
+git clone https://github.com/guitargnarr/reflexia-model-manager.git
 cd reflexia-model-manager
 
 # Start with Docker Compose

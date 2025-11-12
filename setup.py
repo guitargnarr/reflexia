@@ -33,7 +33,7 @@ setup(
     description="A system for deploying, managing, and optimizing large language models with adaptive resource management",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/guitargnar/reflexia-model-manager",
+    url="https://github.com/guitargnarr/reflexia-model-manager",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     classifiers=[
