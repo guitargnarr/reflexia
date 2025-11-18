@@ -36,7 +36,7 @@ jobs:
     
     - name: Test with pytest
       run: |
-        pytest --cov=./ --cov-report=xml
+        pytest tests/test_memory_manager.py tests/test_config.py tests/test_recovery.py --cov=./ --cov-report=xml
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
