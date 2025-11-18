@@ -9,7 +9,6 @@ This source code is licensed under the Reflexia Model Manager License
 found in the LICENSE file in the root directory of this source tree.
 
 Unauthorized use, reproduction, or distribution is prohibited.
-"""
 
 Emergency fix for indentation error in rag_manager.py and rag_manager references in main.py
 """
