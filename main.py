@@ -9,14 +9,12 @@ This source code is licensed under the Reflexia Model Manager License
 found in the LICENSE file in the root directory of this source tree.
 
 Unauthorized use, reproduction, or distribution is prohibited.
-"""
 
 Reflexia Local LLM Implementation
 Main Entry Point Script
 
-Designed for MacOS Sequoia with M3 Max (36GB RAM)
+Designed for macOS Sequoia with M3 Max (36GB RAM)
 """
-
 import os
 import sys
 import argparse
