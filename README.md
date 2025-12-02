@@ -17,19 +17,19 @@
 
 ---
 
-## 🔍 Overview
+## Overview
 
 Reflexia Model Manager provides a comprehensive solution for running large language models efficiently on consumer-grade hardware. It automatically adapts model precision based on system conditions and content complexity, ensuring optimal performance and resource utilization.
 
 **Key Differentiators:**
 
-- 🧠 **Adaptive Quantization Engine**: Automatically adjusts model precision based on content complexity and system resources
-- 🔄 **Resource-Aware Operation**: Monitors memory usage and adjusts operation in real-time
-- 📚 **RAG Integration**: Enhances responses with information from your documents
-- 🌐 **Web UI**: Built-in interface for easy interaction
-- 👨‍💻 **Expert Roles**: Pre-configured specialized personas for different tasks
+- **Adaptive Quantization Engine**: Automatically adjusts model precision based on content complexity and system resources
+- **Resource-Aware Operation**: Monitors memory usage and adjusts operation in real-time
+- **RAG Integration**: Enhances responses with information from your documents
+- **Web UI**: Built-in interface for easy interaction
+- **Expert Roles**: Pre-configured specialized personas for different tasks
 
-## ⚙️ Features
+## Features
 
 ### Model Management
 - Integration with Ollama for model deployment and operation
@@ -59,7 +59,7 @@ Reflexia Model Manager provides a comprehensive solution for running large langu
 - Comprehensive error handling and reporting
 - Graceful degradation under resource constraints
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 
@@ -73,8 +73,8 @@ Use our deployment script for the easiest setup:
 
 ```bash
 # Clone the repository
-git clone https://github.com/guitargnar/reflexia-model-manager.git
-cd reflexia-model-manager
+git clone https://github.com/guitargnarr/reflexia.git
+cd reflexia
 
 # Make the deployment script executable
 chmod +x deploy.sh
@@ -90,8 +90,8 @@ chmod +x deploy.sh
 
 ```bash
 # Clone the repository
-git clone https://github.com/guitargnar/reflexia-model-manager.git
-cd reflexia-model-manager
+git clone https://github.com/guitargnarr/reflexia.git
+cd reflexia
 
 # Create and activate a virtual environment
 python -m venv .venv
@@ -108,8 +108,8 @@ ollama pull llama3:latest
 
 ```bash
 # Clone the repository
-git clone https://github.com/guitargnar/reflexia-model-manager.git
-cd reflexia-model-manager
+git clone https://github.com/guitargnarr/reflexia.git
+cd reflexia
 
 # Start with Docker Compose
 docker-compose up -d
@@ -125,7 +125,7 @@ pip install reflexia-model-manager
 pip install -e .
 ```
 
-## 📋 Usage
+## Usage
 
 ### Quick Start
 
@@ -184,7 +184,7 @@ python main.py --rag          # Enable RAG
 python main.py --benchmark    # Run benchmarks
 ```
 
-## 📊 How It Works
+## How It Works
 
 ### Content Complexity Analysis
 
@@ -227,7 +227,7 @@ Input → Content Analysis → Memory Pressure Check → Quantization Selection 
                                                   f16 (highest quality)
 ```
 
-## 📚 Documentation
+## Documentation
 
 - [Usage Guide](docs/usage.md): Detailed usage instructions
 - [API Reference](docs/api.md): Full API documentation with architecture diagram
@@ -239,18 +239,18 @@ Input → Content Analysis → Memory Pressure Check → Quantization Selection 
   - [Web UI](examples/web_ui_example.py)
   - [Adaptive Quantization](examples/adaptive_quantization.py)
 
-## 🔧 MLOps Features
+## MLOps Features
 
 - **Resource Monitoring**: Tracks memory usage and adapts model configuration accordingly
 - **Progressive Enhancement**: Can automatically increase quality when resources permit
 - **Reliable Operation**: Implements proper retry logic and error handling
 - **Performance Metrics**: Collects and reports inference performance data
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please check out our [contributing guidelines](CONTRIBUTING.md) to get started.
 
-## 📄 License and Intellectual Property Notice
+## License and Intellectual Property Notice
 
 Reflexia Model Manager is proprietary software with significant protections:
 
@@ -274,7 +274,7 @@ See the [LICENSE](LICENSE) and [NOTICE](NOTICE) files for complete terms.
 
 For licensing inquiries, partnerships, or permitted use questions: matthewdscott7@gmail.com
 
-## 🙏 Acknowledgements
+## Acknowledgements
 
 - The [Ollama](https://ollama.ai/) project for making local LLM deployment easy
 - The open source AI community for their excellent models

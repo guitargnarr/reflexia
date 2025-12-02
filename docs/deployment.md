@@ -19,7 +19,7 @@ This guide provides instructions for deploying Reflexia Model Manager in various
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/guitargnar/reflexia-model-manager.git
+   git clone https://github.com/guitargnarr/reflexia-model-manager.git
    cd reflexia-model-manager
    ```
 
@@ -55,7 +55,7 @@ This guide provides instructions for deploying Reflexia Model Manager in various
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/guitargnar/reflexia-model-manager.git
+   git clone https://github.com/guitargnarr/reflexia-model-manager.git
    cd reflexia-model-manager
    ```
 
