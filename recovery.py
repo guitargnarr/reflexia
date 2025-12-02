@@ -9,7 +9,6 @@ This source code is licensed under the Reflexia Model Manager License
 found in the LICENSE file in the root directory of this source tree.
 
 Unauthorized use, reproduction, or distribution is prohibited.
-"""
 
 Recovery mechanisms for Reflexia Model Manager
 Implements error recovery, circuit breakers, and auto-healing capabilities
@@ -296,21 +295,24 @@ def protect_model_manager(model_manager):
 
 # Apply circuit breaker to RAG manager
 def protect_rag_manager(rag_manager):
-    """Apply circuit breakers to critical RAG manager methods
-    
+    """Apply circuit breakers to critical RAG manager methods.
+
     Args:
         rag_manager: RAGManager instance to protect
+
+    Returns:
+        Protected RAGManager instance or None
     """
     if not rag_manager:
         return None
-        
+
     breaker = CircuitBreaker("rag_query", failure_threshold=3)
-    
+
     # Protect generate_rag_response method if it exists
     if hasattr(rag_manager, "generate_rag_response"):
         original_generate = rag_manager.generate_rag_response
         rag_manager.generate_rag_response = circuit_breaker(breaker)(original_generate)
-    
+
     logger.info("RAG manager protected with circuit breaker")
-    
+
     return rag_manager
